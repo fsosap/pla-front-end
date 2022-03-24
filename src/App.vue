@@ -35,6 +35,9 @@ import TableView from "./components/TableView.vue";
 
 .mytable {
   /*position: relative;*/
+  padding-top: 20px;
+  margin-right: 150px;
+  margin-left: 150px;
 }
 
 header {

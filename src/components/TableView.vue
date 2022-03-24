@@ -15,15 +15,16 @@
         <b-th><download></download></b-th>
       </b-tr>
     </b-thead>
-      <b-tbody v-for="index in 2">
+      <b-tbody v-for="index in 4">
         <b-tr>
           <b-td>{{ audit[index].id }}</b-td>
           <b-td>{{ audit[index].iniDate }}</b-td>
           <b-td>{{ audit[index].endDate }}</b-td>
           <b-td>
-              <a href={{audit[index].link}}>
-                <clippy></clippy>
-              </a>
+            <a :href="audit[index].link">
+              <clipboard-list>
+              </clipboard-list>
+            </a>
           </b-td>
         </b-tr>
       </b-tbody>
@@ -32,7 +33,7 @@
 
 <script>
 import { Download } from 'mdue'
-import { Clippy } from 'mdue'
+import { ClipboardList } from 'mdue'
 
 export default {
   data() {
@@ -41,15 +42,17 @@ export default {
       col2: 'fecha ini',
       col3: 'fecha fin',
       audit:[
-        {id:'1',iniDate: '02/02/2022',endDate: '03/03/2022', link: 'www.google.com'},
-        {id:'2',iniDate: '02/02/2022',endDate: '03/05/2022', link: 'www.facebook.com'},
-        {id:'3',iniDate: '02/02/2022',endDate: '03/05/2022', link: 'www.facebook.com'}
+        {id:'null',iniDate: 'empty',endDate: 'empty', link: 'nolink'},
+        {id:'2',iniDate: '02/02/2022',endDate: '03/05/2022', link: 'resume.pdf'},
+        {id:'3',iniDate: '02/02/2022',endDate: '03/05/2022', link: 'resume.pdf'},
+        {id:'4',iniDate: '02/02/2022',endDate: '03/05/2022', link: 'resume.pdf'},
+        {id:'5',iniDate: '02/02/2022',endDate: '03/05/2022', link: 'resume.pdf'}
       ],
     }
   },
   components: {
     Download,
-    Clippy
+    ClipboardList
   }
 }
 </script>
