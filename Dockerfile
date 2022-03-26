@@ -1,14 +1,13 @@
-FROM node:17.7.2-alpine as generator
-WORKDIR /app/src
-COPY ./package.json ./node_modules /app/src/
+# etapa de compilación
+FROM node:9.11.1-alpine as build-stage
+WORKDIR /app
+COPY package*.json ./
 RUN npm install
-COPY . /app/src
-
-FROM generator as builder
-WORKDIR /app/src
+COPY . .
 RUN npm run build
 
-FROM nginx:1.13.6
-WORKDIR /usr/share/nginx/html
-COPY --from=builder /app/src/dist .
+# etapa de producción
+FROM nginx:1.13.12-alpine as production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
 EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
