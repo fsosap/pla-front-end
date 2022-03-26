@@ -38,7 +38,7 @@ import jsPDF from 'jspdf'
 export default {
 
   async setup() {
-    const response = await axios.get("http://localhost:8080/audit/list");
+    const response = await axios.get("https://pla-back-shob2wlylq-uc.a.run.app/audit/list");
     const audits = response.data;
     return {
       audits
@@ -69,7 +69,7 @@ export default {
 </script>
 
 <style scoped>
-.b-table{
+.b-table {
   text-align: center;
   margin-left: 100px;
   margin-right: 100px;
