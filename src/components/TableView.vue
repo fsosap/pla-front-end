@@ -1,12 +1,10 @@
 <template>
   <button type="button" class="btn btn-success btn-sm">add+</button>
-  <b-table-simple hover :items="audit" small caption-top responsive class="b-table">
-    <colgrup>
-      <col>
-      <col>
-      <col>
-      <col>
-    </colgrup>
+  <b-table-simple hover small caption-top responsive class="b-table">
+    <col>
+    <col>
+    <col>
+    <col>
     <b-thead head-variant="dark">
       <b-tr>
         <b-th>{{ col1 }}</b-th>
@@ -15,44 +13,57 @@
         <b-th><download></download></b-th>
       </b-tr>
     </b-thead>
-      <b-tbody v-for="index in 4">
-        <b-tr>
-          <b-td>{{ audit[index].id }}</b-td>
-          <b-td>{{ audit[index].iniDate }}</b-td>
-          <b-td>{{ audit[index].endDate }}</b-td>
-          <b-td>
-            <a :href="audit[index].link">
-              <clipboard-list>
-              </clipboard-list>
-            </a>
-          </b-td>
-        </b-tr>
-      </b-tbody>
+    <b-tbody v-for="audit in audits">
+      <b-tr>
+        <b-td>{{ audit.id }}</b-td>
+        <b-td>{{ audit.startDate }}</b-td>
+        <b-td>{{ audit.endDate }}</b-td>
+        <b-td>
+          {{ audit.pdfInfo }}
+<!--          <a :href="audit.pdfInfo">-->
+<!--            <clipboard-list>-->
+<!--            </clipboard-list>-->
+<!--          </a>-->
+        </b-td>
+      </b-tr>
+    </b-tbody>
   </b-table-simple>
 </template>
 
 <script>
-import { Download } from 'mdue'
-import { ClipboardList } from 'mdue'
+import {ClipboardList, Download} from 'mdue'
+import axios from 'axios'
+import jsPDF from 'jspdf'
 
 export default {
+
+  async setup() {
+    const response = await axios.get("http://localhost:8080/audit/list");
+    const audits = response.data;
+    return {
+      audits
+    }
+  },
+
   data() {
     return {
       col1: 'id',
       col2: 'fecha ini',
       col3: 'fecha fin',
-      audit:[
-        {id:'null',iniDate: 'empty',endDate: 'empty', link: 'nolink'},
-        {id:'2',iniDate: '02/02/2022',endDate: '03/05/2022', link: 'resume.pdf'},
-        {id:'3',iniDate: '02/02/2022',endDate: '03/05/2022', link: 'resume.pdf'},
-        {id:'4',iniDate: '02/02/2022',endDate: '03/05/2022', link: 'resume.pdf'},
-        {id:'5',iniDate: '02/02/2022',endDate: '03/05/2022', link: 'resume.pdf'}
-      ],
     }
   },
+
+  methods: {
+    fromStringtoPdf: async function (id ,report){
+      var doc = new jsPDF();
+      doc.text(10,10, report);
+      doc.save('public/'+id+'.pdf');
+    }
+  },
+
   components: {
     Download,
-    ClipboardList
+    ClipboardList,
   }
 }
 </script>

@@ -10,7 +10,12 @@ import TableView from "./components/TableView.vue";
   </header>
   <div class="border border-success rounded mytable">
     <main>
-      <TableView />
+      <Suspense>
+        <TableView />
+        <template #fallback>
+          <h1>LOADING...</h1>
+        </template>
+      </Suspense>
     </main>
   </div>
 
